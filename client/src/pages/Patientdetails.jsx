@@ -10,28 +10,27 @@ const Patientdetails = () => {
   const [age, setAge] = useState('');
 
   useEffect(() => {
-    fetch(`/api/patients/${id}/`)
+    fetch(`http://127.0.0.1:8000/api//patients/${id}/`)
       .then(response => response.json())
       .then(data => setPatient(data));
   }, [id]);
 
-  const handleUpdateMedicalHistory = () => {
-    fetch(`/api/patients/${id}/`, {
-      method: 'PUT',
+  const handleCreateNewPatient = () => {
+    fetch(`http://127.0.0.1:8000/api//patients/`, {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        ...patient,
-        medical_history: medicalHistory,
         name: name,
         age: age,
+        medical_history: medicalHistory,
       }),
     })
       .then(response => response.json())
-      .then(updatedPatient => {
-        setPatient(updatedPatient);
-        alert('Medical history updated successfully!');
+      .then(newPatient => {
+        alert('New patient created successfully!');
+        setPatient(newPatient);
       });
   };
 
@@ -64,10 +63,10 @@ const Patientdetails = () => {
             onChange={e => setMedicalHistory(e.target.value)}
           ></textarea>
           <button
-            onClick={handleUpdateMedicalHistory}
+            onClick={handleCreateNewPatient}
             className="w-full bg-blue-500 text-white py-2 rounded mt-2"
           >
-            Update
+            Create New Patient
           </button>
         </div>
       </div>

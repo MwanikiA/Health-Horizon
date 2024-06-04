@@ -8,7 +8,7 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    fetch('http://127.0.0.1:8000/api/login/', {
+    fetch(`http://127.0.0.1:8000/api/login/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
