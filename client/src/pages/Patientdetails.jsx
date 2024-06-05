@@ -10,13 +10,13 @@ const Patientdetails = () => {
   const [age, setAge] = useState('');
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api//patients/${id}/`)
+    fetch(`/api/patients/${id}/`)
       .then(response => response.json())
       .then(data => setPatient(data));
   }, [id]);
 
   const handleCreateNewPatient = () => {
-    fetch(`http://127.0.0.1:8000/api//patients/`, {
+    fetch('/api/patients/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
