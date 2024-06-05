@@ -13,7 +13,7 @@ import Patientdetails from './pages/Patientdetails.jsx'
 const paths = createBrowserRouter([
   {
     path: "",
-    element: <App/>
+    element: <h1>Inser the landing Page here Abby</h1>
   },
   {
     path: "/appointments",

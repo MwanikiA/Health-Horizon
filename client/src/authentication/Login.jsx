@@ -18,9 +18,11 @@ const Login = () => {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
+          localStorage.setItem('token', data.token);
           navigate('/home');
         } else {
-          return "REGISTER"
+          console.log(data)
+          alert("Invalid credentials")
         }
       });
   };
