@@ -1,8 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 function Navbar() {
+  const token = localStorage.getItem('token')
+
+  const navigate = useNavigate()
+  const handleLogout = ()=>{
+    localStorage.removeItem('token')
+    navigate('/login')
+    
+  }
+
   return (
     <>
     <nav className="bg-blue-700 p-4 text-white">
@@ -14,7 +23,13 @@ function Navbar() {
 
         </div>
         <div>
-          <Link to="/login" className="hover:underline">Login</Link>
+          {
+            token ? (
+              <p to="/logout" onClick={handleLogout} className="hover:underline cursor-pointer">Logout</p>
+            ) : (
+              <Link to="/login" className="hover:underline">Login</Link>
+            )
+          }
         </div>
       </div>
     </nav>

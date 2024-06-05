@@ -19,13 +19,16 @@ const Register = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, confirmPassword }),
     })
       .then(response => response.json())
       .then(data => {
         if (data.success) {
           navigate('/login');
-        } 
+        } else {
+          console.log(data.error)
+          alert("User already exists")
+        }
       });
   };
 
