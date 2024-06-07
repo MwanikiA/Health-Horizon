@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
 
 const Patientsmain = () => {
   const [tokenGet, setToken] = useState("");
 
   const [patients, setPatients] = useState([]);
+  const [expandedPatientId, setExpandedPatientId] = useState(null);
 
   useEffect(() => {
-    fetch("/api/patients/")
+    fetch('http://127.0.0.1:8000/api//patients/')
       .then((response) => response.json())
       .then((data) => setPatients(data));
   }, []);
@@ -17,6 +18,10 @@ const Patientsmain = () => {
     const token = localStorage.getItem("token");
     setToken(token);
   }, []);
+
+  const handleToggle = (id) => {
+    setExpandedPatientId(expandedPatientId === id ? null : id);
+  };
 
   if (!tokenGet) {
     return (
@@ -38,19 +43,28 @@ const Patientsmain = () => {
     <>
       <Navbar />
       <div className="min-h-screen bg-gray-100 p-8">
-        <h1 className="text-3xl mb-4">Enrolled Patients</h1>
+        <h1 className="text-3xl mb-4 font-bold text-gray-700">Enrolled Patients</h1>
         <div className="mb-4">
-          <Link to="/patientdetails" className="text-blue-500">
+          <Link to="/patientdetails" className="text-blue-500 hover:underline">
             Enroll New Patient
           </Link>
         </div>
-        <div className="bg-white p-4 rounded shadow-md">
+        <div className="bg-white p-6 rounded shadow-md">
           <ul>
             {patients.map((patient) => (
-              <li key={patient.id} className="mb-2">
-                <Link to={`/patients/${patient.id}`} className="text-blue-500">
+              <li key={patient.id} className="mb-4">
+                <button
+                  onClick={() => handleToggle(patient.id)}
+                  className="text-blue-500 font-semibold focus:outline-none"
+                >
                   {patient.name}
-                </Link>
+                </button>
+                {expandedPatientId === patient.id && (
+                  <div className="mt-2 bg-gray-100 p-4 rounded shadow-inner">
+                    <p><strong>Age:</strong> {patient.age}</p>
+                    <p><strong>Medical History:</strong> {patient.medical_history}</p>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
@@ -61,3 +75,4 @@ const Patientsmain = () => {
 };
 
 export default Patientsmain;
+

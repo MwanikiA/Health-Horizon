@@ -1,10 +1,10 @@
 import React from 'react';
-import Login from './authentication/Login';
+import Homepage from './pages/Home';
 
 
 function App() {
   return (
-    <Login/>
+    <Homepage/>
   );
 }
 

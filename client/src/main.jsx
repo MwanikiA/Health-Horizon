@@ -10,10 +10,11 @@ import Register from './authentication/Register.jsx'
 import Homepage from './pages/Home.jsx'
 import Patientdetails from './pages/Patientdetails.jsx'
 
+
 const paths = createBrowserRouter([
   {
     path: "",
-    element: <h1>Inser the landing Page here Abby</h1>
+    element: <App/>
   },
   {
     path: "/appointments",
@@ -39,6 +40,7 @@ const paths = createBrowserRouter([
     path: "/patientdetails",
     element: <Patientdetails/>
   },
+  
 
 
 

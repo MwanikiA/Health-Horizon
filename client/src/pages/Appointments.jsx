@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
 
 const Appointments = () => {
   const [tokenGet, setToken] = useState("");
-
   const [appointments, setAppointments] = useState([]);
   const [patients, setPatients] = useState([]);
   const [newAppointment, setNewAppointment] = useState({
@@ -12,13 +11,14 @@ const Appointments = () => {
     date: "",
     description: "",
   });
+  const [expandedPatient, setExpandedPatient] = useState(null);
 
   useEffect(() => {
-    fetch("/api/appointments/")
+    fetch("http://127.0.0.1:8000/api//appointments/")
       .then((response) => response.json())
       .then((data) => setAppointments(data));
 
-    fetch("/api/patients/")
+    fetch("http://127.0.0.1:8000/api//patients/")
       .then((response) => response.json())
       .then((data) => setPatients(data));
   }, []);
@@ -31,7 +31,7 @@ const Appointments = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch("/api/appointments/", {
+    fetch ('http://127.0.0.1:8000/api//appointments/', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -54,6 +54,10 @@ const Appointments = () => {
     setToken(token);
   }, []);
 
+  const togglePatientDetails = (patientId) => {
+    setExpandedPatient(expandedPatient === patientId ? null : patientId);
+  };
+
   if (!tokenGet) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -75,7 +79,7 @@ const Appointments = () => {
       <Navbar />
       <div className="min-h-screen bg-gray-100 p-8">
         <h1 className="text-3xl mb-4">Appointments</h1>
-        <div className="bg-white p-4 rounded shadow-md">
+        <div className="bg-white p-6 rounded-lg shadow-md">
           <form onSubmit={handleSubmit} className="mb-4">
             <div className="mb-4">
               <label className="block text-gray-700">Patient</label>
@@ -118,14 +122,26 @@ const Appointments = () => {
           </form>
           <ul>
             {appointments.map((appointment) => (
-              <li key={appointment.id} className="mb-2">
-                <Link
-                  to={`/patients/${appointment.patient.id}`}
-                  className="text-blue-500"
+              <li key={appointment.id} className="mb-4 border-b pb-2">
+                <button
+                  onClick={() => togglePatientDetails(appointment.patient.id)}
+                  className="text-blue-500 hover:underline focus:outline-none"
                 >
                   {appointment.patient.name} -{" "}
                   {new Date(appointment.date).toLocaleString()}
-                </Link>
+                </button>
+                {expandedPatient === appointment.patient.id && (
+                  <div className="mt-2 bg-gray-100 p-4 rounded-lg">
+                    <p>
+                      <strong>Patient Name:</strong>{" "}
+                      {appointment.patient_name}
+                    </p>
+                    <p>
+                      <strong>Appointment Description:</strong>{" "}
+                      {appointment.description}
+                    </p>
+                  </div>
+                )}
               </li>
             ))}
           </ul>
@@ -136,3 +152,4 @@ const Appointments = () => {
 };
 
 export default Appointments;
+

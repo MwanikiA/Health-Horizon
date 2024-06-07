@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import {Link} from 'react-router-dom';
+
 
 const Patientdetails = () => {
   const [ tokenGet, setToken ] = useState('')
@@ -12,13 +14,13 @@ const Patientdetails = () => {
   const [age, setAge] = useState('');
 
   useEffect(() => {
-    fetch(`/api/patients/${id}/`)
+    fetch(`/api//patients/${id}/`)
       .then(response => response.json())
       .then(data => setPatient(data));
   }, [id]);
 
   const handleCreateNewPatient = () => {
-    fetch('/api/patients/', {
+    fetch('http://127.0.0.1:8000/api//patients/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
